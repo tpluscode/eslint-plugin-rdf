@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 1.0.1
+
+### Patch Changes
+
+- 542d351: Fixer would remove quotation
+
 ## 1.0.0
 
 ### Major Changes
