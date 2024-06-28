@@ -13,10 +13,10 @@ npm install --save-dev eslint-plugin-rdf
 ```json
 {
     "extends": [
-        "plugin:require-extensions/recommended"
+        "plugin:rdf/recommended"
     ],
     "plugins": [
-        "require-extensions"
+        "rdf"
     ]
 }
 ```
