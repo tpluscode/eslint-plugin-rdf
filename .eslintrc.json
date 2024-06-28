@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "@tpluscode/eslint-config/js"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "@tpluscode",
+        "plugin:rdf/recommended"
+      ],
+      "plugins": ["rdf"],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    }
+  ]
+}
