@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --fix --quiet --ignore-path .gitignore",
-    "test": "eslint . --ext .ts --quiet --report-unused-disable-directives"
+    "test": "eslint . --ext .ts --quiet --report-unused-disable-directives",
+    "release": "changesets publish"
   },
   "keywords": [
     "eslint",
