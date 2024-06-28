@@ -20,7 +20,7 @@ module.exports = {
               node,
               message: 'Module rdf-js is deprecated, use @rdfjs/types instead',
               fix(fixer) {
-                return fixer.replaceText(node.source, '@rdfjs/types')
+                return fixer.replaceText(node.source, node.source.raw.replace('rdf-js', '@rdfjs/types'))
               },
             })
           }
