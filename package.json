@@ -1,0 +1,37 @@
+{
+  "name": "eslint-plugin-rdf",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --fix --quiet --ignore-path .gitignore",
+    "test": "eslint . --ext .ts --quiet --report-unused-disable-directives"
+  },
+  "keywords": [
+    "eslint",
+    "rdf"
+  ],
+  "author": "Tomasz Pluskiewicz",
+  "license": "MIT",
+  "exports": {
+    "require": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "eslint": "*"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.6",
+    "@rdfjs/types": "^1.1.0",
+    "@tpluscode/eslint-config": "^0.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "eslint": "^8.23.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "rdf-js": "^4.0.2",
+    "typescript": "^5.5.2"
+  }
+}
