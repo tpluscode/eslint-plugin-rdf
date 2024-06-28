@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint . --fix --quiet --ignore-path .gitignore",
     "test": "eslint . --ext .ts --quiet --report-unused-disable-directives",
-    "release": "changesets publish"
+    "release": "changeset publish"
   },
   "keywords": [
     "eslint",
