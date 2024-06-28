@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-rdf",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --fix --quiet --ignore-path .gitignore",
