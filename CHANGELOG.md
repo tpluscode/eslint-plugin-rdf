@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 2.0.1
+
+### Patch Changes
+
+- 5e6aa1f: `require` field in `package.json` prevent package from being imported from ESM
+
 ## 2.0.0
 
 ### Major Changes
