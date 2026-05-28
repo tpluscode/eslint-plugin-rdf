@@ -35,14 +35,14 @@ const plugin = {
 }
 
 Object.assign(plugin.configs, {
-  recommended: [{
+  recommended: {
     plugins: {
       rdf: plugin,
     },
     rules: {
       'rdf/ban-rdf-js': 'error',
     },
-  }],
+  },
 })
 
 export default plugin

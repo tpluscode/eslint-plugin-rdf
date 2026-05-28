@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line rdf/ban-rdf-js
 import type * as RDF1 from 'rdf-js'
 // eslint-disable-next-line rdf/ban-rdf-js

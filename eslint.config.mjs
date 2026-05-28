@@ -12,11 +12,10 @@ export default [
     },
   },
 
-  // ESLint's recommended base rules (only for JS files)
-  { files: ["**/*.{js,cjs,mjs}"], ...js.configs.recommended },
-
-  // Apply this plugin's recommended rules to TS files only
-  { files: ["**/*.ts"], ...rdf.configs.recommended[0] },
+  // Apply recommended configs separately (they are arrays in flat config)
+  // Note: spreading them into a single object breaks because arrays become numeric keys ("0", "1", ...)
+  js.configs.recommended,
+  rdf.configs.recommended,
 
   // TS parser/project settings for matched files
   {
