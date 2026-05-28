@@ -2,8 +2,8 @@
   "name": "eslint-plugin-rdf",
   "version": "1.0.1",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "lint": "eslint . --fix --quiet --ignore-path .gitignore",
     "test": "eslint . --ext .ts --quiet --report-unused-disable-directives",
     "release": "changeset publish"
   },
@@ -22,17 +22,19 @@
     "README.md"
   ],
   "peerDependencies": {
-    "eslint": "*"
+    "@eslint/js": "^9"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.6",
+    "@changesets/cli": "^2.31.0",
     "@rdfjs/types": "^1.1.0",
-    "@tpluscode/eslint-config": "^0.4.5",
-    "@typescript-eslint/eslint-plugin": "^7.14.1",
-    "@typescript-eslint/parser": "^7.14.1",
-    "eslint": "^8.23.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
+    "@typescript-eslint/eslint-plugin": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
+    "eslint": "^9",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "rdf-js": "^4.0.2",
     "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.39.4"
   }
 }

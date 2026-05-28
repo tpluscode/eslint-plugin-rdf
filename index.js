@@ -1,25 +1,21 @@
-module.exports = {
-  configs: {
-    recommended: {
-      plugins: ['rdf'],
-      rules: {
-        'rdf/ban-rdf-js': 'error',
-      },
-    },
+const plugin = {
+  meta: {
+    name: 'eslint-plugin-rdf',
   },
+  configs: {},
   rules: {
     'ban-rdf-js': {
       meta: {
         fixable: true,
       },
-      create(context) {
-        function rule(node) {
+      create (context) {
+        function rule (node) {
           const source = node.source
           if (source?.value === 'rdf-js') {
             context.report({
               node,
               message: 'Module rdf-js is deprecated, use @rdfjs/types instead',
-              fix(fixer) {
+              fix (fixer) {
                 return fixer.replaceText(node.source, node.source.raw.replace('rdf-js', '@rdfjs/types'))
               },
             })
@@ -37,3 +33,16 @@ module.exports = {
     },
   },
 }
+
+Object.assign(plugin.configs, {
+  recommended: [{
+    plugins: {
+      rdf: plugin,
+    },
+    rules: {
+      'rdf/ban-rdf-js': 'error',
+    },
+  }],
+})
+
+export default plugin
