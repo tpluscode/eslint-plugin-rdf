@@ -2,4 +2,4 @@
 "eslint-plugin-rdf": major
 ---
 
-Updated eslint to v9
+Updated eslint to 9+

@@ -4,6 +4,14 @@ import rdf from "./index.js";
 
 // Flat config: compose recommended configs directly, no FlatCompat/extends.
 export default [
+  // Global linter options
+  {
+    linterOptions: {
+      // Fail on unused eslint-disable comments (works in v9 and v10)
+      reportUnusedDisableDirectives: "error",
+    },
+  },
+
   // ESLint's recommended base rules (only for JS files)
   { files: ["**/*.{js,cjs,mjs}"], ...js.configs.recommended },
 
