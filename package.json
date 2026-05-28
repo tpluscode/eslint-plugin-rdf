@@ -13,6 +13,9 @@
   ],
   "author": "Tomasz Pluskiewicz",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/tpluscode/eslint-plugin-rdf"
+  },
   "exports": {
     "require": "./index.js"
   },
