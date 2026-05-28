@@ -16,9 +16,6 @@
   "repository": {
     "url": "https://github.com/tpluscode/eslint-plugin-rdf"
   },
-  "exports": {
-    "require": "./index.js"
-  },
   "files": [
     "index.js",
     "LICENSE",
