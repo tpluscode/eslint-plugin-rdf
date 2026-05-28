@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 2.0.0
+
+### Major Changes
+
+- 0697757: Updated eslint to 9+
+
 ## 1.0.1
 
 ### Patch Changes
