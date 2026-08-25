@@ -1,4 +1,4 @@
-# `sparql/no-duplicate-prefixes`
+# `rdf/sparql-no-duplicate-prefixes`
 
 Disallow duplicate prefix declarations in SPARQL documents.
 

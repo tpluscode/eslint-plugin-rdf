@@ -1,4 +1,4 @@
-# `sparql/no-unused-prefixes`
+# `rdf/sparql-no-unused-prefixes`
 
 Disallow unused prefix declarations in SPARQL documents.
 

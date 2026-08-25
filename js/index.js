@@ -12,10 +12,10 @@ const plugin = {
 plugin.configs = {
   recommended: {
     plugins: {
-      rdfjs: plugin,
+      rdf: plugin,
     },
     rules: {
-      'rdfjs/ban-rdf-js': 'error',
+      'rdf/ban-rdf-js': 'error',
     },
   },
 }

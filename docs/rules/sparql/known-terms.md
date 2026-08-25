@@ -1,4 +1,4 @@
-# `sparql/known-terms`
+# `rdf/sparql-known-terms`
 
 Verify that terms from known vocabularies (`@tpluscode/rdf-ns-builders`) actually exist in SPARQL queries.
 
@@ -37,7 +37,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/known-terms": ["error", {
+    "rdf/sparql-known-terms": ["error", {
       "customTerms": {
         "schema": ["CustomUnknown"]
       },

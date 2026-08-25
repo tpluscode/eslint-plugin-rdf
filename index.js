@@ -20,17 +20,22 @@ const plugin = {
   meta: {
     name: 'eslint-plugin-rdf',
   },
+  rules: {
+    ...js.rules,
+    ...rdf.rules,
+    ...sparql.rules,
+  },
   configs,
   js,
   rdf,
   sparql,
 }
 
-export {
-  configs,
-  js,
-  rdf,
-  sparql,
-}
+configs.js.plugins.rdf = plugin
+configs.rdf.plugins.rdf = plugin
+configs.sparql.plugins.rdf = plugin
+configs.turtle.plugins.rdf = plugin
+configs.ntriples.plugins.rdf = plugin
+configs.nquads.plugins.rdf = plugin
 
 export default plugin
