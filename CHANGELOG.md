@@ -1,5 +1,12 @@
 # eslint-plugin-rdf
 
+## 3.0.0
+
+### Major Changes
+
+- 7c0614a: Renamed the rule `rdf/ban-rdf-js` to `rdfjs/ban-rdf-js`
+- 7c0614a: Added parsers, rules, and configs for n-triples-derived RDF formats and SPARQL
+
 ## 2.0.1
 
 ### Patch Changes
