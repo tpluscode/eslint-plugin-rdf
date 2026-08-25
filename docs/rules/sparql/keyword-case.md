@@ -1,4 +1,4 @@
-# `sparql/keyword-case`
+# `rdf/sparql-keyword-case`
 
 Enforce consistent casing for SPARQL keywords.
 
@@ -45,7 +45,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/keyword-case": ["warn", {
+    "rdf/sparql-keyword-case": ["warn", {
       "case": "upper"
     }]
   }

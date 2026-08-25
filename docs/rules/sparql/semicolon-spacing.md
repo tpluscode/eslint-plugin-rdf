@@ -1,4 +1,4 @@
-# `sparql/semicolon-spacing`
+# `rdf/sparql-semicolon-spacing`
 
 Enforce spacing before semicolons (`;`) in SPARQL patterns.
 
@@ -37,7 +37,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/semicolon-spacing": ["error", {
+    "rdf/sparql-semicolon-spacing": ["error", {
       "before": "space"
     }]
   }

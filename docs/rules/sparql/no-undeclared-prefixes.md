@@ -1,4 +1,4 @@
-# `sparql/no-undeclared-prefixes`
+# `rdf/sparql-no-undeclared-prefixes`
 
 Disallow the use of undeclared prefixes in SPARQL documents.
 
@@ -29,7 +29,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/no-undeclared-prefixes": ["error", {
+    "rdf/sparql-no-undeclared-prefixes": ["error", {
       "prefixes": {
         "custom": "http://example.org/custom#"
       },

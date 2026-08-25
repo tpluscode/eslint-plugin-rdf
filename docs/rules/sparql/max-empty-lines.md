@@ -1,4 +1,4 @@
-# `sparql/max-empty-lines`
+# `rdf/sparql-max-empty-lines`
 
 Enforce a maximum number of consecutive empty lines in SPARQL documents.
 
@@ -33,7 +33,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/max-empty-lines": ["error", {
+    "rdf/sparql-max-empty-lines": ["error", {
       "max": 1,
       "maxEOF": 0,
       "maxBOF": 0

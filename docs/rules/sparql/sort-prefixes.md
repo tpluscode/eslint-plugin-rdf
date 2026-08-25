@@ -1,4 +1,4 @@
-# `sparql/sort-prefixes`
+# `rdf/sparql-sort-prefixes`
 
 Require prefix declarations to be sorted alphabetically in SPARQL documents.
 

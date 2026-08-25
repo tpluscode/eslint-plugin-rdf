@@ -1,4 +1,4 @@
-# `sparql/predicate-per-line`
+# `rdf/sparql-predicate-per-line`
 
 Enforce placement of each predicate on a new line in SPARQL patterns.
 

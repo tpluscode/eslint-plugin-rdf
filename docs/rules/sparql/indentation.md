@@ -1,4 +1,4 @@
-# `sparql/indentation`
+# `rdf/sparql-indentation`
 
 Enforce consistent indentation in SPARQL queries and updates.
 
@@ -37,7 +37,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/indentation": ["error", {
+    "rdf/sparql-indentation": ["error", {
       "spaces": 4
     }]
   }

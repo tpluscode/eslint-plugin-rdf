@@ -1,4 +1,4 @@
-# `rdfjs/ban-rdf-js`
+# `rdf/ban-rdf-js`
 
 Disallow the deprecated `rdf-js` package and suggest `@rdfjs/types` instead.
 

@@ -20,9 +20,6 @@ import sortPrefixes from './rules/sort-prefixes.js'
 import trailingSemicolon from './rules/trailing-semicolon.js'
 
 const plugin = {
-  meta: {
-    name: 'eslint-plugin-rdf/rdf',
-  },
   parser,
   rules: {
     'blank-node-wrapping': blankNodeWrapping,

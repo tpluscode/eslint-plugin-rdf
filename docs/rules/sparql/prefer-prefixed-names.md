@@ -1,4 +1,4 @@
-# `sparql/prefer-prefixed-names`
+# `rdf/sparql-prefer-prefixed-names`
 
 Enforce using prefixed names instead of full URIs in SPARQL queries.
 
@@ -29,7 +29,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/prefer-prefixed-names": ["warn", {
+    "rdf/sparql-prefer-prefixed-names": ["warn", {
       "prefixes": {
         "custom": "http://example.org/custom#"
       },

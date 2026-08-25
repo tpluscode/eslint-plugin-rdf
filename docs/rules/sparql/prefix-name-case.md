@@ -1,4 +1,4 @@
-# `sparql/prefix-name-case`
+# `rdf/sparql-prefix-name-case`
 
 Enforce consistent naming case for prefixes in SPARQL queries and updates.
 
@@ -35,7 +35,7 @@ This rule accepts an optional object:
 ```json
 {
   "rules": {
-    "sparql/prefix-name-case": ["warn", {
+    "rdf/sparql-prefix-name-case": ["warn", {
       "case": "camelCase"
     }]
   }
