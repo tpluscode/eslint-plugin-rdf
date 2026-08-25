@@ -6,8 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node: [ "lts/*", 21, 20, 18 ]
+        node: [ "lts/*", 24, 22, 20 ]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
