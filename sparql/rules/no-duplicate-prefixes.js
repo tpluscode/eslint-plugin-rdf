@@ -1,0 +1,42 @@
+export default {
+  meta: {
+    type: 'problem',
+    docs: {
+      description: 'disallow duplicate SPARQL prefix declarations',
+    },
+    schema: [],
+    messages: {
+      duplicatePrefix: 'Duplicate prefix "{{ name }}". First declared on line {{ line }}.',
+    },
+  },
+
+  create(context) {
+    return {
+      Program() {
+        const sourceCode = context.sourceCode
+        const declarations = sourceCode.parserServices?.sparql?.prefixDeclarations
+          ?? sourceCode.parserServices?.rdf?.prefixDeclarations
+          ?? []
+        const seen = new Map()
+
+        for (const declaration of declarations) {
+          const previous = seen.get(declaration.name)
+
+          if (previous) {
+            context.report({
+              loc: declaration.nameToken.loc,
+              messageId: 'duplicatePrefix',
+              data: {
+                name: declaration.name,
+                line: previous.nameToken.loc.start.line,
+              },
+            })
+            continue
+          }
+
+          seen.set(declaration.name, declaration)
+        }
+      },
+    }
+  },
+}
