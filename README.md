@@ -1,6 +1,6 @@
 # eslint-plugin-rdf
 
-Linting rules for RDF/JS projects.
+ESLint plugin for RDF/JS projects, RDF data formats (Turtle, TriG, N3, N-Triples, N-Quads), and SPARQL queries/updates.
 
 ## Installation
 
@@ -8,18 +8,68 @@ Linting rules for RDF/JS projects.
 npm i -D eslint-plugin-rdf
 ```
 
-This plugin ships a flat-config `recommended` preset compatible with ESLint 9 and 10.
+This plugin supports ESLint 9+ flat configuration.
 
-Peer dependencies you’ll typically have in your app/project:
-- `eslint` (v9 or v10)
-- `@eslint/js` (v9 or v10)
-- `@typescript-eslint/parser` (if you lint TypeScript)
+## Usage (ESLint Flat Config)
 
-## Usage (ESLint 9+ flat config)
+Add `eslint-plugin-rdf` to your `eslint.config.js` or `eslint.config.mjs`.
 
-Create or edit `eslint.config.js` in your project and compose the plugin’s flat config.
+### Recommended Config (All Languages)
 
-### TypeScript projects (type-aware)
+To enable the recommended configurations for JS/TS, RDF formats, and SPARQL queries all at once:
+
+```js
+import js from "@eslint/js";
+import rdf from "eslint-plugin-rdf";
+
+export default [
+  js.configs.recommended,
+  ...rdf.configs.recommended,
+];
+```
+
+### Individual Language Configs
+
+You can also import and use specific configs per language/format:
+
+```js
+import js from "@eslint/js";
+import rdf, { configs } from "eslint-plugin-rdf";
+
+export default [
+  js.configs.recommended,
+
+  // Enable only JavaScript/TypeScript RDF rules
+  configs.js,
+
+  // Enable only RDF documents (Turtle, TriG, N3, N-Triples, N-Quads)
+  configs.rdf,
+
+  // Enable only SPARQL queries and updates (.rq, .ru, .sparql)
+  configs.sparql,
+];
+```
+
+### RDF Dialect-Specific Configs
+
+If you want tailored configs for specific RDF dialects:
+
+```js
+import { configs } from "eslint-plugin-rdf";
+
+export default [
+  // Turtle, TriG, and N3 (.ttl, .trig, .n3)
+  configs.turtle,
+
+  // N-Triples (.nt)
+  configs.ntriples,
+
+  // N-Quads (.nq)
+  configs.nquads,
+];
+```
+
+### TypeScript Projects
 
 ```js
 import js from "@eslint/js";
@@ -27,43 +77,16 @@ import tsParser from "@typescript-eslint/parser";
 import rdf from "eslint-plugin-rdf";
 
 export default [
-  { 
-    files: ["**/*.{js,mjs,ts}"], 
-    ...js.configs.recommended, 
-    ...rdf.configs.recommended
-  },
+  js.configs.recommended,
+  ...rdf.configs.recommended,
 
-  // TypeScript parser/project options for TS/TSX files
   {
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       parser: tsParser,
-      ecmaVersion: "latest",
-      sourceType: "module",
       parserOptions: {
-        // Anchor the tsconfig to this file location for reliable editor resolution
-        tsconfigRootDir: import.meta.dirname,
         project: ["./tsconfig.json"],
-        // Recommended for editors with @typescript-eslint v8+
-        projectService: true,
       },
-    },
-  },
-];
-```
-
-### Enabling a rule without the preset
-
-If you prefer not to use the preset, import the plugin and enable rules directly:
-
-```js
-import rdf from "eslint-plugin-rdf";
-
-export default [
-  {
-    plugins: { rdf },
-    rules: {
-      "rdf/ban-rdf-js": "error",
     },
   },
 ];
@@ -71,39 +94,77 @@ export default [
 
 ### CLI
 
-Run ESLint normally (add `--fix` to auto-fix):
+Run ESLint normally (add `--fix` to auto-fix fixable rules):
 
 ```bash
-npx eslint . --ext .ts
-npx eslint . --ext .ts --fix
+npx eslint .
+npx eslint . --fix
 ```
+
+## Configs
+
+| Config | Target Files | Description |
+| :--- | :--- | :--- |
+| `configs.recommended` | `*` | Array containing `[configs.js, configs.rdf, configs.sparql]`. |
+| `configs.js` | JS / TS | Recommended rules for JavaScript/TypeScript RDF code (`rdfjs/ban-rdf-js`). |
+| `configs.rdf` | `**/*.{ttl,trig,n3,nt,nq}` | Recommended rules and custom parser for RDF documents. |
+| `configs.turtle` | `**/*.{ttl,trig,n3}` | Rules tailored for Turtle, TriG, and N3 documents. |
+| `configs.ntriples` | `**/*.nt` | Rules tailored for N-Triples line-based files. |
+| `configs.nquads` | `**/*.nq` | Rules tailored for N-Quads line-based files. |
+| `configs.sparql` | `**/*.{rq,ru,sparql}` | Recommended rules and custom parser for SPARQL queries and updates. |
 
 ## Rules
 
-### `rdf/ban-rdf-js`
+💼 Included in `recommended` config  
+🔧 Automatically fixable by `--fix`
 
-🔧 This rule is automatically fixable by the [`--fix` CLI option][fix].
+### JavaScript / TypeScript Rules (`rdfjs/*`)
 
-The `rdf-js` package is deprecated. Its usages should be replaced with `@rdfjs/types`.
+| Rule | Description | 💼 | 🔧 |
+| :--- | :--- | :---: | :---: |
+| [`rdfjs/ban-rdf-js`](docs/rules/js/ban-rdf-js.md) | Disallow deprecated `rdf-js` package imports in favor of `@rdfjs/types` | 💼 | 🔧 |
 
-#### Fail
+### RDF Rules (`rdf/*`)
 
-```ts
-import { DataFactory } from 'rdf-js'
-import type { NamedNode } from 'rdf-js'
-import * as RDF from 'rdf-js'
-```
+Rules for Turtle, TriG, N3, N-Triples, and N-Quads files:
 
-#### Pass
+| Rule | Description | 💼 | 🔧 |
+| :--- | :--- | :---: | :---: |
+| [`rdf/blank-node-wrapping`](docs/rules/rdf/blank-node-wrapping.md) | Enforce formatting and wrapping for blank node property lists (`[...]`) | 💼 | 🔧 |
+| [`rdf/dot-placement`](docs/rules/rdf/dot-placement.md) | Enforce placement of statement closing dot (`.`) | 💼 | 🔧 |
+| [`rdf/indentation`](docs/rules/rdf/indentation.md) | Enforce consistent indentation in RDF documents | 💼 | 🔧 |
+| [`rdf/known-terms`](docs/rules/rdf/known-terms.md) | Verify that terms from known vocabularies actually exist | 💼 | |
+| [`rdf/list-wrapping`](docs/rules/rdf/list-wrapping.md) | Enforce formatting and wrapping for RDF collections / lists (`(...)`) | 💼 | 🔧 |
+| [`rdf/max-empty-lines`](docs/rules/rdf/max-empty-lines.md) | Enforce a maximum number of consecutive empty lines | 💼 | 🔧 |
+| [`rdf/no-duplicate-prefixes`](docs/rules/rdf/no-duplicate-prefixes.md) | Disallow duplicate prefix declarations | 💼 | |
+| [`rdf/no-relative-iris`](docs/rules/rdf/no-relative-iris.md) | Disallow relative IRIs in RDF documents | | |
+| [`rdf/no-undeclared-prefixes`](docs/rules/rdf/no-undeclared-prefixes.md) | Disallow the use of undeclared prefixes | 💼 | 🔧 |
+| [`rdf/no-unused-prefixes`](docs/rules/rdf/no-unused-prefixes.md) | Disallow unused prefix declarations | 💼 | 🔧 |
+| [`rdf/object-per-line`](docs/rules/rdf/object-per-line.md) | Enforce placement of objects on separate lines | | 🔧 |
+| [`rdf/predicate-per-line`](docs/rules/rdf/predicate-per-line.md) | Enforce placement of each predicate on a new line | 💼 | 🔧 |
+| [`rdf/prefer-prefixed-names`](docs/rules/rdf/prefer-prefixed-names.md) | Enforce using prefixed names instead of full URIs | 💼 | 🔧 |
+| [`rdf/prefix-declaration-style`](docs/rules/rdf/prefix-declaration-style.md) | Enforce consistent style for prefix declarations (`@prefix` vs `PREFIX`) | 💼 | 🔧 |
+| [`rdf/prefix-name-case`](docs/rules/rdf/prefix-name-case.md) | Enforce consistent naming case for prefixes | 💼 | 🔧 |
+| [`rdf/require-final-dot`](docs/rules/rdf/require-final-dot.md) | Require a trailing dot (`.`) at the end of RDF statements | 💼 | 🔧 |
+| [`rdf/semicolon-spacing`](docs/rules/rdf/semicolon-spacing.md) | Enforce spacing before and after semicolons (`;`) | 💼 | 🔧 |
+| [`rdf/sort-prefixes`](docs/rules/rdf/sort-prefixes.md) | Require prefix declarations to be sorted alphabetically | 💼 | 🔧 |
+| [`rdf/trailing-semicolon`](docs/rules/rdf/trailing-semicolon.md) | Enforce or disallow a trailing semicolon on statement before `.` | | 🔧 |
 
-```ts
-import { DataFactory } from '@rdfjs/types'
-import type { NamedNode } from '@rdfjs/types'
-import * as RDF from '@rdfjs/types'
-```
+### SPARQL Rules (`sparql/*`)
 
-#### Options
+Rules for SPARQL queries and updates (`.rq`, `.ru`, `.sparql`):
 
-This rule has no options.
-
-[fix]: https://eslint.org/docs/latest/user-guide/command-line-interface#--fix
+| Rule | Description | 💼 | 🔧 |
+| :--- | :--- | :---: | :---: |
+| [`sparql/indentation`](docs/rules/sparql/indentation.md) | Enforce consistent indentation in SPARQL queries and updates | 💼 | 🔧 |
+| [`sparql/keyword-case`](docs/rules/sparql/keyword-case.md) | Enforce consistent casing for SPARQL keywords | 💼 | 🔧 |
+| [`sparql/known-terms`](docs/rules/sparql/known-terms.md) | Verify that terms from known vocabularies actually exist | 💼 | |
+| [`sparql/max-empty-lines`](docs/rules/sparql/max-empty-lines.md) | Enforce a maximum number of consecutive empty lines | 💼 | 🔧 |
+| [`sparql/no-duplicate-prefixes`](docs/rules/sparql/no-duplicate-prefixes.md) | Disallow duplicate prefix declarations | 💼 | |
+| [`sparql/no-undeclared-prefixes`](docs/rules/sparql/no-undeclared-prefixes.md) | Disallow the use of undeclared prefixes | 💼 | 🔧 |
+| [`sparql/no-unused-prefixes`](docs/rules/sparql/no-unused-prefixes.md) | Disallow unused prefix declarations | 💼 | 🔧 |
+| [`sparql/predicate-per-line`](docs/rules/sparql/predicate-per-line.md) | Enforce placement of each predicate on a new line in SPARQL patterns | 💼 | 🔧 |
+| [`sparql/prefer-prefixed-names`](docs/rules/sparql/prefer-prefixed-names.md) | Enforce using prefixed names instead of full URIs | 💼 | 🔧 |
+| [`sparql/prefix-name-case`](docs/rules/sparql/prefix-name-case.md) | Enforce consistent naming case for prefixes | 💼 | 🔧 |
+| [`sparql/semicolon-spacing`](docs/rules/sparql/semicolon-spacing.md) | Enforce spacing before semicolons (`;`) | 💼 | 🔧 |
+| [`sparql/sort-prefixes`](docs/rules/sparql/sort-prefixes.md) | Require prefix declarations to be sorted alphabetically | 💼 | 🔧 |
