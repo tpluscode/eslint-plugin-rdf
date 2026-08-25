@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 3.0.1
+
+### Patch Changes
+
+- d2fd202: Fix invalid rule names and removed named exports
+
 ## 3.0.0
 
 ### Major Changes
