@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 3.1.0
+
+### Minor Changes
+
+- 087066f: Do not require `@tpluscode/rdf-ns-builders` (now a peer-dep). When not installed, some rules will be inactive
+
 ## 3.0.1
 
 ### Patch Changes
