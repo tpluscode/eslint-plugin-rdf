@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --quiet --ext .js,.ts .",
     "test": "node --test",
+    "postinstall": "node scripts/postinstall.js",
     "release": "changeset publish"
   },
   "keywords": [
@@ -29,20 +30,27 @@
     "sparql/parser.js",
     "sparql/rules",
     "utils",
+    "scripts",
     "LICENSE",
     "README.md"
   ],
   "dependencies": {
-    "@zazuko/prefixes": "^2.6.1",
-    "@tpluscode/rdf-ns-builders": "4 - 5"
+    "@zazuko/prefixes": "^2.6.1"
   },
   "peerDependencies": {
-    "eslint": ">=9 <11",
-    "@eslint/js": ">=9 <11"
+    "@eslint/js": ">=9 <11",
+    "@tpluscode/rdf-ns-builders": ">=4",
+    "eslint": ">=9 <11"
+  },
+  "peerDependenciesMeta": {
+    "@tpluscode/rdf-ns-builders": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@rdfjs/types": "^1.1.0",
+    "@tpluscode/rdf-ns-builders": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.60.0",
     "@typescript-eslint/parser": "^8.60.0",
     "eslint": "^10",

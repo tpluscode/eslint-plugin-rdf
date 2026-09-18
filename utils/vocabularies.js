@@ -1,17 +1,32 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import * as builders from '@tpluscode/rdf-ns-builders'
 import zazukoPrefixes from '@zazuko/prefixes'
+
+const dataPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'vocabularies.json')
 
 let termsByVocab = null
 let termsByNamespace = null
 let namespaceToPrefix = null
+let vocabulariesLoaded = false
+
+export function areVocabulariesAvailable() {
+  initVocabularies()
+  return termsByVocab !== null && termsByVocab.size > 0
+}
+
+export function resetVocabularies() {
+  termsByVocab = null
+  termsByNamespace = null
+  namespaceToPrefix = null
+  vocabulariesLoaded = false
+}
 
 function initVocabularies() {
-  if (termsByVocab && termsByNamespace && namespaceToPrefix) {
+  if (vocabulariesLoaded) {
     return
   }
+  vocabulariesLoaded = true
 
   termsByVocab = new Map()
   termsByNamespace = new Map()
@@ -22,57 +37,115 @@ function initVocabularies() {
     namespaceToPrefix.set(ns, prefix)
   }
 
-  try {
-    const indexPath = fileURLToPath(import.meta.resolve('@tpluscode/rdf-ns-builders'))
-    const pkgDir = path.dirname(indexPath)
-    const dtsDir = path.join(pkgDir, 'vocabularies')
-
-    if (fs.existsSync(dtsDir)) {
-      for (const file of fs.readdirSync(dtsDir)) {
-        if (!file.endsWith('.d.ts')) {
-          continue
+  if (fs.existsSync(dataPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'))
+      if (data.termsByVocab) {
+        for (const [vocab, terms] of Object.entries(data.termsByVocab)) {
+          termsByVocab.set(vocab, new Set(terms))
         }
-
-        const vocab = path.basename(file, '.d.ts')
-        const content = fs.readFileSync(path.join(dtsDir, file), 'utf8')
-        const terms = new Set()
-        const regex = /^\s*"?([a-zA-Z0-9_-]+)"?\s*:\s*NamedNode/gm
-        let match
-        while ((match = regex.exec(content)) !== null) {
-          terms.add(match[1])
+      }
+      if (data.termsByNamespace) {
+        for (const [ns, terms] of Object.entries(data.termsByNamespace)) {
+          termsByNamespace.set(ns, new Set(terms))
         }
-
-        termsByVocab.set(vocab, terms)
-        const camel = vocab.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-        termsByVocab.set(camel, terms)
-
-        if (vocab === 'void') {
-          termsByVocab.set('_void', terms)
-        }
-
-        const builderFn = builders[vocab] || builders[`_${vocab}`] || builders[camel]
-        if (typeof builderFn === 'function' && builderFn !== builders.default) {
-          try {
-            const ns = builderFn('').value
-            termsByNamespace.set(ns, terms)
-            if (!namespaceToPrefix.has(ns)) {
-              namespaceToPrefix.set(ns, vocab)
-            }
+      }
+      if (data.namespaceToPrefix) {
+        for (const [ns, prefix] of Object.entries(data.namespaceToPrefix)) {
+          if (!namespaceToPrefix.has(ns)) {
+            namespaceToPrefix.set(ns, prefix)
           }
-          catch {
-            // ignore builder invocation errors
-          }
-        }
-
-        if (zazukoPrefixes[vocab]) {
-          termsByNamespace.set(zazukoPrefixes[vocab], terms)
         }
       }
     }
+    catch {
+      // If loading JSON fails, fallback to empty terms
+    }
+  }
+}
+
+export async function generateVocabularies() {
+  let builders
+  let indexPath
+  try {
+    builders = await import('@tpluscode/rdf-ns-builders')
+    indexPath = fileURLToPath(import.meta.resolve('@tpluscode/rdf-ns-builders'))
   }
   catch {
-    // If loading .d.ts fails, fallback to empty terms
+    if (fs.existsSync(dataPath)) {
+      try {
+        fs.unlinkSync(dataPath)
+      }
+      catch {
+        // ignore unlink error
+      }
+    }
+    return false
   }
+
+  const pkgDir = path.dirname(indexPath)
+  const dtsDir = path.join(pkgDir, 'vocabularies')
+
+  const termsByVocabData = {}
+  const termsByNamespaceData = {}
+  const namespaceToPrefixData = {}
+
+  if (fs.existsSync(dtsDir)) {
+    for (const file of fs.readdirSync(dtsDir)) {
+      if (!file.endsWith('.d.ts')) {
+        continue
+      }
+
+      const vocab = path.basename(file, '.d.ts')
+      const content = fs.readFileSync(path.join(dtsDir, file), 'utf8')
+      const terms = []
+      const regex = /^\s*"?([a-zA-Z0-9_-]+)"?\s*:\s*NamedNode/gm
+      let match
+      while ((match = regex.exec(content)) !== null) {
+        terms.push(match[1])
+      }
+
+      termsByVocabData[vocab] = terms
+      const camel = vocab.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+      termsByVocabData[camel] = terms
+
+      if (vocab === 'void') {
+        termsByVocabData['_void'] = terms
+      }
+
+      const builderFn = builders[vocab] || builders[`_${vocab}`] || builders[camel]
+      if (typeof builderFn === 'function' && builderFn !== builders.default) {
+        try {
+          const ns = builderFn('').value
+          termsByNamespaceData[ns] = terms
+          if (!namespaceToPrefixData[ns]) {
+            namespaceToPrefixData[ns] = vocab
+          }
+        }
+        catch {
+          // ignore builder invocation errors
+        }
+      }
+
+      if (zazukoPrefixes[vocab]) {
+        termsByNamespaceData[zazukoPrefixes[vocab]] = terms
+      }
+    }
+  }
+
+  fs.writeFileSync(dataPath, JSON.stringify({
+    termsByVocab: termsByVocabData,
+    termsByNamespace: termsByNamespaceData,
+    namespaceToPrefix: namespaceToPrefixData,
+  }, null, 2), 'utf8')
+
+  // Reset caches so next initVocabularies reads newly generated data
+  termsByVocab = null
+  termsByNamespace = null
+  namespaceToPrefix = null
+  vocabulariesLoaded = false
+
+  return true
 }
 
 export function getKnownTerms(vocabOrNamespace) {
