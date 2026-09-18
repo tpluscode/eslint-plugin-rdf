@@ -1,4 +1,4 @@
-import { isKnownVocabulary, isTermValid } from '../../utils/vocabularies.js'
+import { isKnownVocabulary, isTermValid, areVocabulariesAvailable } from '../../utils/vocabularies.js'
 
 export default {
   meta: {
@@ -35,6 +35,10 @@ export default {
   },
 
   create(context) {
+    if (!areVocabulariesAvailable()) {
+      return {}
+    }
+
     const options = context.options[0] ?? {}
 
     return {
