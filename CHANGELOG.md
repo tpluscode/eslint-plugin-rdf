@@ -1,5 +1,11 @@
 # eslint-plugin-rdf
 
+## 3.1.1
+
+### Patch Changes
+
+- 7a89eda: Moved `@zazuko/prefixes` to peer dependencies
+
 ## 3.1.0
 
 ### Minor Changes
