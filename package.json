@@ -34,12 +34,10 @@
     "LICENSE",
     "README.md"
   ],
-  "dependencies": {
-    "@zazuko/prefixes": "^2.6.1"
-  },
   "peerDependencies": {
     "@eslint/js": ">=9 <11",
     "@tpluscode/rdf-ns-builders": ">=4",
+    "@zazuko/prefixes": ">=2",
     "eslint": ">=9 <11"
   },
   "peerDependenciesMeta": {
